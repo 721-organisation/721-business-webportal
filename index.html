@@ -59,7 +59,38 @@
             <input class="form-control form-control-sm" id="eventPriceInput">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
 </form>
 </div>
 </body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    $(function () {
+        var socket = io();
+        $('form').submit(function(e){
+            e.preventDefault(); // prevents page reloading
+            var eventStruct = {
+                name: $("#eventNameInput").val(),
+                venueName: $("#venueNameInput").val(),
+                venueLat: "",
+                venueLong: "",
+                image: $("#eventImageUrlInput").val(),
+                link: $("#eventLinkInput").val(),
+                date: $("#eventDateInput").val(),
+                time: $("#eventTimeInput").val(),
+                minAge: $("#minAgeInput").val(),
+                price: $("#eventPriceInput").val()
+            };
+            var data = {
+                event: eventStruct,
+                address: $("#venueAddressInput").val()
+            };
+
+
+            socket.emit('newEventSubmitted', data);
+            $('#m').val('');
+            return false;
+        });
+    });
+</script>
 </html>

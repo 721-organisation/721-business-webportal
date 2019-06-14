@@ -2,6 +2,8 @@
   "name": "721-business-webportal",
   "version": "0.0.1",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "node-geocoder": "^3.23.0",
+    "socket.io": "^2.2.0"
   }
 }
