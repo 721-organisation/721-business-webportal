@@ -74,6 +74,8 @@
                 venueName: $("#venueNameInput").val(),
                 venueLat: "",
                 venueLong: "",
+                eventSourceId: "",
+                eventSourceTag: "",
                 image: $("#eventImageUrlInput").val(),
                 link: $("#eventLinkInput").val(),
                 date: $("#eventDateInput").val(),
@@ -88,8 +90,8 @@
 
 
             socket.emit('newEventSubmitted', data);
-            $('#m').val('');
-            return false;
+            alert("Are you sure you want to submit this event");
+            location.reload();
         });
     });
 </script>
