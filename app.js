@@ -84,7 +84,7 @@ io.on('connection', function (socket) {
                     if (error) throw new Error(error);
                     var accessToken = body.id;
                     var settings = { method: 'POST',
-                        url: 'https://temp-243314.appspot.com/api/events',
+                        url: 'https://temp-243314.appspot.com/api/requestedEvents',
                         qs: { access_token: accessToken },
                         headers:
                             { 'cache-control': 'no-cache',
