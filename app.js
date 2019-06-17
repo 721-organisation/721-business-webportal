@@ -62,6 +62,7 @@ io.on('connection', function (socket) {
             }
             eventData.eventSourceId = randomstring;
             eventData.eventSourceTag = "BUSINESS";
+            console.log("test");
             try {
                 var request = require("request");
 
