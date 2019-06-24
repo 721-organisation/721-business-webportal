@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>721 Business WebPortal</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -30,92 +30,222 @@
     </style>
 </head>
 <body>
-<form>
-    <div class="container">
-        <h1>721 Business Web Portal</h1>
-        <p>Please fill in this form with all the required information. Once your event has been submitted it will be
-            sent to our team for review.</p>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Please select:</h5>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-outline-primary" id="createEventBtn">Create an event</button>
+                <button type="button" class="btn btn-outline-primary" id="createHGBtn">Create a 'Hidden Gem'</button>
+            </div>
+        </div>
     </div>
-
-    <div class="container border">
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="eventNameInput">Event Name</label>
-                <input class="form-control form-control" id="eventNameInput">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="venueNameInput">Venue Name</label>
-                <input class="form-control form-control" id="venueNameInput">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="venueAddressInput">Venue Address</label>
-            <input class="form-control form-control" id="venueAddressInput">
-        </div>
-        <div class="form-group">
-            <label for="eventImageUrlInput">Event Image Url (Post a link to only the image, not a website containing the
-                image)</label>
-            <input class="form-control form-control" id="eventImageUrlInput">
-        </div>
-        <div class="form-group">
-            <label for="eventLinkInput">Event link</label>
-            <input class="form-control form-control" id="eventLinkInput">
-        </div>
-        <div class="form-row">
-
-            <div class="form-group col-md-6">
-                <label for="eventDateInput">Event Date [YYYY-MM-DD]</label>
-                <div class="input-group date " data-date-format="yyyy-mm-dd" data-provide="datepicker">
-                    <input type="text" class="form-control" id="eventDateInput">
-                    <div class="input-group-addon">
-                        <span class="glyphicon glyphicon-th"></span>
-                    </div>
-                </div>
-
-            </div>
-            <div class="form-group col-md-6">
-                <label for="eventTimeInput">Event Time [HH:MM]</label>
-                <input class="form-control form-control" id="eventTimeInput">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="eventDescriptionInput">Event Description</label>
-            <input class="form-control form-control" id="eventDescriptionInput">
-        </div>
-        <div class="form-row">
-
-            <div class="form-group col-md-6">
-                <label for="minAgeInput">Event Minimum Age [Optional]</label>
-                <input class="form-control form-control" id="minAgeInput">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="eventPriceInput">Event Price [Optional]</label>
-                <input class="form-control form-control" id="eventPriceInput">
-            </div>
-        </div>
-
-        <button type="submit" style="background-color: #FE6060" class="btn col-md-12">Submit</button>
-        <br>
-        <br>
-    </div>
-</form>
 </div>
+<div id="eventSubmission">
+    <form id="#eventForm">
+        <div class="container">
+            <h1>721 Business Web Portal</h1>
+            <h2>Event submission</h2>
+            <p>Please fill in this form with all the required information. Once your event has been submitted it will be
+                sent to our team for review.</p>
+        </div>
+
+        <div class="container border">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="eventNameInput">Event Name</label>
+                    <input class="form-control form-control" id="eventNameInput">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="venueNameInput">Venue Name</label>
+                    <input class="form-control form-control" id="venueNameInput">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="venueAddressInput">Venue Address</label>
+                <input class="form-control form-control" id="venueAddressInput">
+            </div>
+            <div class="form-group">
+                <label for="eventImageUrlInput">Event Image Url (Post a link to only the image, not a website containing
+                    the
+                    image)</label>
+                <input class="form-control form-control" id="eventImageUrlInput">
+            </div>
+            <div class="form-group">
+                <label for="eventLinkInput">Event link</label>
+                <input class="form-control form-control" id="eventLinkInput">
+            </div>
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label for="eventDateInput">Event Date [YYYY-MM-DD]</label>
+                    <div class="input-group date " data-date-format="yyyy-mm-dd" data-provide="datepicker">
+                        <input type="text" class="form-control" id="eventDateInput">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="eventTimeInput">Event Time [HH:MM]</label>
+                    <input class="form-control form-control" id="eventTimeInput">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="eventDescriptionInput">Event Description</label>
+                <input class="form-control form-control" id="eventDescriptionInput">
+            </div>
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label for="minAgeInput">Event Minimum Age [Optional]</label>
+                    <input class="form-control form-control" id="minAgeInput">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="eventPriceInput">Event Price [Optional]</label>
+                    <input class="form-control form-control" id="eventPriceInput">
+                </div>
+            </div>
+
+            <button type="submit" style="background-color: #FE6060" class="btn col-md-12">Submit</button>
+            <br>
+            <br>
+        </div>
+    </form>
+</div>
+<div id="hiddenGemSubmission">
+    <form id="#hiddenGemForm">
+        <div class="container">
+            <h1>721 Business Web Portal</h1>
+            <h2>Hidden Gem submission</h2>
+            <p>Please fill in this form with all the required information. Once your hidden gem has been submitted it
+                will be
+                sent to our team for review.</p>
+        </div>
+
+        <div class="container border">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="eventNameInput">Event Name</label>
+                    <input class="form-control form-control" id="eventNameInputHG">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="venueNameInput">Venue Name</label>
+                    <input class="form-control form-control" id="venueNameInputHG">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="venueAddressInput">Venue Address</label>
+                <input class="form-control form-control" id="venueAddressInputHG">
+            </div>
+            <div class="form-group">
+                <label for="eventImageUrlInput">Event Image Url (Post a link to only the image, not a website containing
+                    the
+                    image)</label>
+                <input class="form-control form-control" id="eventImageUrlInputHG">
+            </div>
+            <div class="form-group">
+                <label for="eventLinkInput">Event link</label>
+                <input class="form-control form-control" id="eventLinkInputHG">
+            </div>
+            <div class="form-group">
+                <label for="eventDescriptionInput">Event Description</label>
+                <input class="form-control form-control" id="eventDescriptionInputHG">
+            </div>
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label for="minAgeInput">Event Minimum Age [Optional]</label>
+                    <input class="form-control form-control" id="minAgeInputHG">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="eventPriceInput">Event Price [Optional]</label>
+                    <input class="form-control form-control" id="eventPriceInputHG">
+                </div>
+            </div>
+
+            <button type="submit" style="background-color: #FE6060" class="btn col-md-12">Submit</button>
+            <br>
+            <br>
+        </div>
+    </form>
+</div>
+
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    $(function () {
+
+    $(document).ready(function () {
+        $('#myModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        $('#myModal').modal('show');
+        $('#eventSubmission').hide();
+        $('#hiddenGemSubmission').hide();
+        $('#createEventBtn').click(function (e) {
+            e.preventDefault();
+            $('#eventSubmission').show();
+            $('#myModal').modal('hide');
+
+        });
+        $('#createHGBtn').click(function (e) {
+            e.preventDefault();
+            $('#hiddenGemSubmission').show();
+            $('#myModal').modal('hide');
+
+        });
+
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd'
         });
         var socket = io();
-        $('form').submit(function (e) {
+        $('#hiddenGemForm').submit(function (e) {
+            e.preventDefault(); // prevents page reloading
+            var name = $("#eventNameInputHG").val();
+            var venueName = $("#venueNameInputHG").val();
+            var image = $("#eventImageUrlInputHG").val();
+            var link = $("#eventLinkInputHG").val();
+            var minAge = $("#minAgeInputHG").val();
+            var description = $("#eventDescriptionInputHG").val();
+            var price = $("#eventPriceInputHG").val();
+            if (name === "" || venueName === "" || image === "" || link === "" || date === "" || time === "" || description === "") {
+                alert("Please input all the required information");
+            } else {
+                var hiddenGemStruct = {
+                    name: name,
+                    venueName: venueName,
+                    venueLat: "",
+                    venueLong: "",
+                    eventSourceId: "",
+                    eventSourceTag: "",
+                    image: image,
+                    link: link,
+                    minAge: minAge,
+                    description: description,
+                    price: price
+                };
+                var data = {
+                    event: hiddenGemStruct,
+                    address: $("#venueAddressInputHG").val()
+                };
+
+
+                alert("'Hidden Gem' submitted");
+                socket.emit('newHiddenGemSubmitted', data);
+
+                location.reload();
+            }
+        });
+        $('#eventForm').submit(function (e) {
             e.preventDefault(); // prevents page reloading
             var name = $("#eventNameInput").val();
             var venueName = $("#venueNameInput").val();
             var image = $("#eventImageUrlInput").val();
             var link = $("#eventLinkInput").val();
-            var date = $("#eventDateInput").val();
-            var time = $("#eventTimeInput").val();
             var minAge = $("#minAgeInput").val();
             var description = $("#eventDescriptionInput").val();
             var price = $("#eventPriceInput").val();
@@ -142,9 +272,8 @@
                     address: $("#venueAddressInput").val()
                 };
 
-
+                alert("Event Submitted");
                 socket.emit('newEventSubmitted', data);
-                alert("Are you sure you want to submit this event");
                 location.reload();
             }
         });
