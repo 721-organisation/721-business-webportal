@@ -110,7 +110,7 @@
                 </div>
             </div>
 
-            <button type="submit" style="background-color: #FE6060" class="btn col-md-12">Submit</button>
+            <button id="eventSubmit" style="background-color: #FE6060" class="btn col-md-12">Submit</button>
             <br>
             <br>
         </div>
@@ -167,7 +167,7 @@
                 </div>
             </div>
 
-            <button type="submit" style="background-color: #FE6060" class="btn col-md-12">Submit</button>
+            <button id="hiddenGemSubmit" style="background-color: #FE6060" class="btn col-md-12">Submit</button>
             <br>
             <br>
         </div>
@@ -202,8 +202,12 @@
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd'
         });
+
+    });
+    $(function () {
         var socket = io();
-        $('#hiddenGemForm').submit(function (e) {
+        $("#hiddenGemSubmit").click(function (e) {
+            console.log("dasdasdasd");
             e.preventDefault(); // prevents page reloading
             var name = $("#eventNameInputHG").val();
             var venueName = $("#venueNameInputHG").val();
@@ -212,7 +216,7 @@
             var minAge = $("#minAgeInputHG").val();
             var description = $("#eventDescriptionInputHG").val();
             var price = $("#eventPriceInputHG").val();
-            if (name === "" || venueName === "" || image === "" || link === "" || date === "" || time === "" || description === "") {
+            if (name === "" || venueName === "" || image === "" || link === "" || description === "") {
                 alert("Please input all the required information");
             } else {
                 var hiddenGemStruct = {
@@ -240,7 +244,7 @@
                 location.reload();
             }
         });
-        $('#eventForm').submit(function (e) {
+        $("#eventSubmit").create(function (e) {
             e.preventDefault(); // prevents page reloading
             var name = $("#eventNameInput").val();
             var venueName = $("#venueNameInput").val();

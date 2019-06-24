@@ -110,6 +110,7 @@ io.on('connection', function (socket) {
     socket.on('newHiddenGemSubmitted', function (data) {
         var hiddenGemData = data.event;
         var venueAddress = data.address;
+        console.log("SDadasda");
         getLatLongFromAddress(venueAddress, function (latLong) {
             hiddenGemData.venueLat = latLong.latitude;
             hiddenGemData.venueLong = latLong.longitude;
