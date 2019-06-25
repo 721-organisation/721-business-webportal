@@ -43,12 +43,28 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="instagramModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Your images:</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container" id="instaImages">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="eventSubmission">
     <form id="#eventForm">
         <div class="container">
             <h1>721 Business Web Portal</h1>
             <h2>Event submission</h2>
-            <p>Please fill in this form with all the required information. Once your event has been submitted it will be
+            <p>Please fill in this form with all the required information. Once your event has been submitted it
+                will be
                 sent to our team for review.</p>
         </div>
 
@@ -68,7 +84,8 @@
                 <input class="form-control form-control" id="venueAddressInput">
             </div>
             <div class="form-group">
-                <label for="eventImageUrlInput">Event Image Url (Post a link to only the image, not a website containing
+                <label for="eventImageUrlInput">Event Image Url (Post a link to only the image, not a website
+                    containing
                     the
                     image)</label>
                 <input class="form-control form-control" id="eventImageUrlInput">
@@ -121,7 +138,9 @@
         <div class="container">
             <h1>721 Business Web Portal</h1>
             <h2>Hidden Gem submission</h2>
-            <p>Please fill in this form with all the required information. Once your hidden gem has been submitted it
+            <button class="btn btn-primary" id="instaUploadBtn">Upload via Instagram</button>
+            <p>Please fill in this form with all the required information. Once your hidden gem has been submitted
+                it
                 will be
                 sent to our team for review.</p>
         </div>
@@ -142,7 +161,8 @@
                 <input class="form-control form-control" id="venueAddressInputHG">
             </div>
             <div class="form-group">
-                <label for="eventImageUrlInput">Hidden Gem Image Url (Post a link to only the image, not a website containing
+                <label for="eventImageUrlInput">Hidden Gem Image Url (Post a link to only the image, not a website
+                    containing
                     the
                     image)</label>
                 <input class="form-control form-control" id="eventImageUrlInputHG">
@@ -177,15 +197,31 @@
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    var getUrlParameter = function getUrlParameter() {
+        var sPageURL = window.location.hash.substring(1);
+        return sPageURL.split('=')[1];
+
+    };
 
     $(document).ready(function () {
-        $('#myModal').modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-        $('#myModal').modal('show');
+
+
+        $('#instagramModal').modal('hide');
+
         $('#eventSubmission').hide();
         $('#hiddenGemSubmission').hide();
+        if (getUrlParameter() == undefined) {
+
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            $('#myModal').modal('show');
+
+
+        }
+
+
         $('#createEventBtn').click(function (e) {
             e.preventDefault();
             $('#eventSubmission').show();
@@ -204,10 +240,87 @@
         });
 
     });
+    const REDIRECTURL = "http://localhost:8080";
+    const CLIENTID = "ae180dd2b5d54122a3209a730f5d859c";
+    var setUrl = function (redirectUrl, clientId) {
+        return "https://api.instagram.com/oauth/authorize/?client_id=" + clientId + "&redirect_uri=" + redirectUrl + "&response_type=token";
+    };
+
+    var url = setUrl(REDIRECTURL, CLIENTID);
+    $("#instaUploadBtn").click(function (e) {
+        e.preventDefault();
+        window.location.replace(url);
+    });
+
+
     $(function () {
         var socket = io();
+        if (getUrlParameter() !== undefined) {
+            var accessToken = getUrlParameter();
+            $('#hiddenGemSubmission').show();
+            socket.emit('getImages', accessToken);
+        }
+        socket.on("images", function (images) {
+                $("#instaImages").empty();
+                $("#instaImages").append("<div class='row' id='row0'></div>");
+                var col = 0;
+                var row = 0;
+                for (var i = 0; i < images.length; i++) {
+                    var image = images[i];
+                    $("#row" + row + "").append("" +
+                        "<div class=\"card col-sm\">\n" +
+                        "  <img class=\"card-img-top\" src=\"" + image.images.standard_resolution.url + "\" alt=\"Card image cap\" onclick='approve(\"" + i + "\")'>\n" +
+                        "</div>"
+                    );
+                    col++;
+                    if (col === 3) {
+                        row++;
+                        col = 0;
+                        $("#instaImages").append("<div class='row' id='row" + row + "'></div>");
+                    }
+                    approve = function (id) {
+                        var approvedIgImage = images[id];
+
+                        $("#instagramModal").modal('hide');
+                        try {
+                            $("#venueNameInputHG").val(approvedIgImage.location.name)
+                        } catch (e) {
+
+                        }
+
+                        try {
+                            $("#eventImageUrlInputHG").val(approvedIgImage.images.standard_resolution.url)
+                        } catch (e) {
+
+                        }
+
+                        try {
+                            $("#eventLinkInputHG").val(approvedIgImage.link)
+                        } catch (e) {
+
+                        }
+
+                        try {
+                            $("#eventDescriptionInputHG").val(approvedIgImage.caption.text)
+                        } catch (e) {
+
+                        }
+
+                        try {
+                            $("#venueAddressInputHG").val(approvedIgImage.location.latitude + ", " + approvedIgImage.location.longitude);
+                        } catch (e) {
+
+                        }
+                    }
+
+                }
+
+                $('#instagramModal').modal('show');
+
+            }
+        );
+
         $("#hiddenGemSubmit").click(function (e) {
-            console.log("dasdasdasd");
             e.preventDefault(); // prevents page reloading
             var name = $("#eventNameInputHG").val();
             var venueName = $("#venueNameInputHG").val();

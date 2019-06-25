@@ -56,9 +56,9 @@ io.on('connection', function (socket) {
             var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
             var string_length = 16;
             var randomstring = '';
-            for (var i=0; i<string_length; i++) {
+            for (var i = 0; i < string_length; i++) {
                 var rnum = Math.floor(Math.random() * chars.length);
-                randomstring += chars.substring(rnum,rnum+1);
+                randomstring += chars.substring(rnum, rnum + 1);
             }
             eventData.eventSourceId = randomstring;
             eventData.eventSourceTag = "BUSINESS";
@@ -84,21 +84,24 @@ io.on('connection', function (socket) {
                 request(options, function (error, response, body) {
                     if (error) throw new Error(error);
                     var accessToken = body.id;
-                    var settings = { method: 'POST',
+                    var settings = {
+                        method: 'POST',
                         url: 'https://temp-243314.appspot.com/api/requestedEvents',
-                        qs: { access_token: accessToken },
+                        qs: {access_token: accessToken},
                         headers:
-                            { 'cache-control': 'no-cache',
+                            {
+                                'cache-control': 'no-cache',
                                 Connection: 'keep-alive',
                                 'accept-encoding': 'gzip, deflate',
                                 Accept: '*/*',
-                                'Content-Type': 'application/json' },
+                                'Content-Type': 'application/json'
+                            },
                         body: eventData,
-                        json: true };
+                        json: true
+                    };
 
-                    request(settings, function (error, response, b)  {
+                    request(settings, function (error, response, b) {
                         if (error) throw new Error(error);
-                        console.log(b);
                     });
                 });
 
@@ -107,23 +110,49 @@ io.on('connection', function (socket) {
             }
         });
     });
+    socket.on('getImages', function (accessToken) {
+        var request = require("request");
+
+        var options = {
+            method: 'GET',
+            url: 'https://api.instagram.com/v1/users/self/media/recent/',
+            qs: {access_token: accessToken},
+            headers:
+                {
+                    'cache-control': 'no-cache',
+                    Connection: 'keep-alive',
+                    'accept-encoding': 'gzip, deflate',
+                    Host: 'api.instagram.com',
+                    'Cache-Control': 'no-cache',
+                    Accept: '*/*',
+                    'Content-Type': 'application/json'
+                }, gzip: true
+
+        };
+
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+            socket.emit("images", JSON.parse(body).data);
+        });
+
+
+    });
     socket.on('newHiddenGemSubmitted', function (data) {
         var hiddenGemData = data.event;
         var venueAddress = data.address;
-        console.log("SDadasda");
         getLatLongFromAddress(venueAddress, function (latLong) {
             hiddenGemData.venueLat = latLong.latitude;
             hiddenGemData.venueLong = latLong.longitude;
             var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
             var string_length = 16;
             var randomstring = '';
-            for (var i=0; i<string_length; i++) {
+            for (var i = 0; i < string_length; i++) {
                 var rnum = Math.floor(Math.random() * chars.length);
-                randomstring += chars.substring(rnum,rnum+1);
+                randomstring += chars.substring(rnum, rnum + 1);
             }
             hiddenGemData.eventSourceId = randomstring;
             hiddenGemData.eventSourceTag = "BUSINESS";
-            console.log("test");
+
             try {
                 var request = require("request");
 
@@ -145,21 +174,24 @@ io.on('connection', function (socket) {
                 request(options, function (error, response, body) {
                     if (error) throw new Error(error);
                     var accessToken = body.id;
-                    var settings = { method: 'POST',
+                    var settings = {
+                        method: 'POST',
                         url: 'https://temp-243314.appspot.com/api/requestedHiddenGems',
-                        qs: { access_token: accessToken },
+                        qs: {access_token: accessToken},
                         headers:
-                            { 'cache-control': 'no-cache',
+                            {
+                                'cache-control': 'no-cache',
                                 Connection: 'keep-alive',
                                 'accept-encoding': 'gzip, deflate',
                                 Accept: '*/*',
-                                'Content-Type': 'application/json' },
+                                'Content-Type': 'application/json'
+                            },
                         body: hiddenGemData,
-                        json: true };
+                        json: true
+                    };
 
-                    request(settings, function (error, response, b)  {
+                    request(settings, function (error, response, b) {
                         if (error) throw new Error(error);
-                        console.log(b);
                     });
                 });
 
@@ -172,6 +204,6 @@ io.on('connection', function (socket) {
 
 const PORT = process.env.PORT || 8080;
 
-http.listen(PORT, function(){
+http.listen(PORT, function () {
     console.log('listening on *:' + PORT);
 });
