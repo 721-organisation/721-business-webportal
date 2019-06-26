@@ -137,8 +137,10 @@
     <form id="#hiddenGemForm">
         <div class="container">
             <h1>721 Business Web Portal</h1>
-            <h2>Hidden Gem submission</h2>
-            <button class="btn btn-primary" id="instaUploadBtn">Upload via Instagram</button>
+            <div class="row">
+                <h2 class="col-sm-6">Hidden Gem submission</h2>
+                <button class="col-sm-6 btn btn-outline-danger" id="instaUploadBtn">Upload via Instagram</button>
+            </div>
             <p>Please fill in this form with all the required information. Once your hidden gem has been submitted
                 it
                 will be
@@ -240,7 +242,7 @@
         });
 
     });
-    const REDIRECTURL = "http://localhost:8080";
+    const REDIRECTURL = window.location.origin;
     const CLIENTID = "ae180dd2b5d54122a3209a730f5d859c";
     var setUrl = function (redirectUrl, clientId) {
         return "https://api.instagram.com/oauth/authorize/?client_id=" + clientId + "&redirect_uri=" + redirectUrl + "&response_type=token";
@@ -268,7 +270,7 @@
                 for (var i = 0; i < images.length; i++) {
                     var image = images[i];
                     $("#row" + row + "").append("" +
-                        "<div class=\"card col-sm\">\n" +
+                        "<div class=\"col-sm\">\n" +
                         "  <img class=\"card-img-top\" src=\"" + image.images.standard_resolution.url + "\" alt=\"Card image cap\" onclick='approve(\"" + i + "\")'>\n" +
                         "</div>"
                     );
